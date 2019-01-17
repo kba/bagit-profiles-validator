@@ -348,7 +348,7 @@ def _main():
     parser.add_argument('--loglevel', default='INFO', choices=('DEBUG', 'INFO', 'ERROR'), help="Log level. Default: %(default)s")
     parser.add_argument('--file', help="Load profile from FILE, not by URL. Default: %(default)s.")
     parser.add_argument('--report', action='store_true', help="Print validation report. Default: %(default)s")
-    parser.add_argument('--skip-serialization', action='store_true', help="Skip serialization validation. Default: %(default)s")
+    parser.add_argument('--skip', action='append', default=[], help="Skip validation steps. Default: %(default)s", choices=('serialization', 'profile'))
     parser.add_argument('profile_url', nargs=1)
     parser.add_argument('bagit_path', nargs=1)
 
@@ -370,7 +370,7 @@ def _main():
     bag = bagit.Bag(bagit_path)  # pylint: disable=no-member
 
     # Validate 'Serialization' and 'Accept-Serialization', then perform general validation.
-    if not args.skip_serialization:
+    if 'serialization' not in args.skip:
         if profile.validate_serialization(bagit_path):
             print("✓ Serialization validates")
         else:
@@ -378,13 +378,14 @@ def _main():
             sys.exit(1)
 
     # Validate the rest of the profile.
-    if profile.validate(bag):
-        print("✓ Validates against %s" % profile_url)
-    else:
-        print("✗ Does not validate against %s" % profile_url)
-        if args.report:
-            print(profile.report)
-        sys.exit(2)
+    if 'profile' not in args.skip:
+        if profile.validate(bag):
+            print("✓ Validates against %s" % profile_url)
+        else:
+            print("✗ Does not validate against %s" % profile_url)
+            if args.report:
+                print(profile.report)
+            sys.exit(2)
 
 
 if __name__ == '__main__':
