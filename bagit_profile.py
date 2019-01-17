@@ -347,6 +347,7 @@ def _main():
     parser.add_argument('--no-logfile', action='store_true', help="Do not log to a log file")
     parser.add_argument('--loglevel', help="Loglevel", default='INFO', choices=('DEBUG', 'INFO', 'ERROR'))
     parser.add_argument('--file', help="Load profile from this file, not by its URL.")
+    parser.add_argument('--report', action='store_true', help="Print validation report")
     parser.add_argument('profile_url', nargs=1)
     parser.add_argument('bagit_path', nargs=1)
 
@@ -379,6 +380,8 @@ def _main():
         print("✓ Validates against %s" % profile_url)
     else:
         print("✗ Does not validate against %s" % profile_url)
+        if args.report:
+            print(profile.report)
         sys.exit(2)
 
 
