@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 
 """
 A simple Python module for validating BagIt profiles. See
@@ -372,17 +374,17 @@ def _main():
     # Validate 'Serialization' and 'Accept-Serialization', then perform general validation.
     if 'serialization' not in args.skip:
         if profile.validate_serialization(bagit_path):
-            print("✓ Serialization validates")
+            print(u"✓ Serialization validates")
         else:
-            print("✗ Serialization does not validate")
+            print(u"✗ Serialization does not validate")
             sys.exit(1)
 
     # Validate the rest of the profile.
     if 'profile' not in args.skip:
         if profile.validate(bag):
-            print("✓ Validates against %s" % profile_url)
+            print(u"✓ Validates against %s" % profile_url)
         else:
-            print("✗ Does not validate against %s" % profile_url)
+            print(u"✗ Does not validate against %s" % profile_url)
             if args.report:
                 print(profile.report)
             sys.exit(2)
