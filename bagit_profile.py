@@ -342,12 +342,12 @@ def _main():
     parser = ArgumentParser(description="Validate BagIt bags against BagIt profiles")
 
     parser.add_argument('--version', action='version', version='%(prog)s, v' + get_distribution('bagit_profile').version)
-    parser.add_argument('--quiet', action='store_true', help="Suppress all output except errors")
-    parser.add_argument('--log', dest='logdir', help="Log directory")
-    parser.add_argument('--no-logfile', action='store_true', help="Do not log to a log file")
-    parser.add_argument('--loglevel', help="Loglevel", default='INFO', choices=('DEBUG', 'INFO', 'ERROR'))
-    parser.add_argument('--file', help="Load profile from this file, not by its URL.")
-    parser.add_argument('--report', action='store_true', help="Print validation report")
+    parser.add_argument('--quiet', action='store_true', help="Suppress all output except errors. Default: %(default)s")
+    parser.add_argument('--log', dest='logdir', help="Log directory. Default: %(default)s")
+    parser.add_argument('--no-logfile', action='store_true', help="Do not log to a log file. Default: %(default)s")
+    parser.add_argument('--loglevel', default='INFO', choices=('DEBUG', 'INFO', 'ERROR'), help="Log level. Default: %(default)s")
+    parser.add_argument('--file', help="Load profile from FILE, not by URL. Default: %(default)s.")
+    parser.add_argument('--report', action='store_true', help="Print validation report. Default: %(default)s")
     parser.add_argument('profile_url', nargs=1)
     parser.add_argument('bagit_path', nargs=1)
 
